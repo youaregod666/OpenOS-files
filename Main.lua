@@ -1,3 +1,12 @@
+-- to install on computer from opencomputers
+-- Flashing EEPROM
+	layout:removeChildren()
+	addImage(1, 1, "EEPROM")
+	workspace:draw()
+
+EEPROMProxy.set(request(EFIURL))
+	EEPROMProxy.setLabel("IMineOS EFI")
+	EEPROMProxy.setData(selectedFilesystemProxy.address)
 -- Downloading files from created list
 	local versions, path, id, version, shortcut = {}
 	for i = 1, #downloadList do
@@ -12,15 +21,5 @@
 				path = OSPath .. path,
 				version = version or 1,
 			}
-		end
-	
-		-- Create shortcut if possible
-		if shortcut then
-			switchProxy(function()
-				system.createShortcut(
-					userPaths.desktop .. filesystem.hideExtension(filesystem.name(filesystem.path(path))),
-					OSPath .. filesystem.path(path)
-				)
-			end)
 		end
 	end
