@@ -316,15 +316,15 @@ for i = 1, #files.localizations do
 		localization = deserialize(request(installerURL .. files.localizations[i]))
 
 		-- Filling widgets with selected localization data
-		usernameInput.placeholderText = localization.username
-		passwordInput.placeholderText = localization.password
-		passwordSubmitInput.placeholderText = localization.submitPassword
-		passwordSwitchAndLabel.label.text = localization.withoutPassword
-		wallpapersSwitchAndLabel.label.text = localization.wallpapers
-		screensaversSwitchAndLabel.label.text = localization.screensavers
-		applicationsSwitchAndLabel.label.text = localization.applications
-		localizationsSwitchAndLabel.label.text = localization.languages
-		acceptSwitchAndLabel.label.text = localization.accept
+		-- usernameInput.placeholderText = localization.username
+		-- passwordInput.placeholderText = localization.password
+		-- passwordSubmitInput.placeholderText = localization.submitPassword
+		-- passwordSwitchAndLabel.label.text = localization.withoutPassword
+		-- wallpapersSwitchAndLabel.label.text = localization.wallpapers
+		-- screensaversSwitchAndLabel.label.text = localization.screensavers
+		-- applicationsSwitchAndLabel.label.text = localization.applications
+		-- localizationsSwitchAndLabel.label.text = localization.languages
+		-- acceptSwitchAndLabel.label.text = localization.accept
 	end
 end
 
@@ -346,76 +346,76 @@ local function loadStage()
 	stages[stage]()
 end
 
-local function checkUserInputs()
-	local nameEmpty = #usernameInput.text == 0
-	local nameVaild = usernameInput.text:match("^%w[%w%s_]+$")
-	local passValid = passwordSwitchAndLabel.switch.state or #passwordInput.text == 0 or #passwordSubmitInput.text == 0 or passwordInput.text == passwordSubmitInput.text
+--local function checkUserInputs()
+--	local nameEmpty = #usernameInput.text == 0
+--	local nameVaild = usernameInput.text:match("^%w[%w%s_]+$")
+--	local passValid = passwordSwitchAndLabel.switch.state or #passwordInput.text == 0 or #passwordSubmitInput.text == 0 or passwordInput.text == passwordSubmitInput.text
+--
+--	if (nameEmpty or nameVaild) and passValid then
+--		usernamePasswordText.hidden = true
+--		nextButton.disabled = nameEmpty or not nameVaild or not passValid
+--	else
+--		usernamePasswordText.hidden = false
+-- nextButton.disabled = true
+--
+--		if nameVaild then
+-- usernamePasswordText.text = localization.passwordsArentEqual
+--		else
+--			usernamePasswordText.text = localization.usernameInvalid
+--		end
+--	end
+--end
 
-	if (nameEmpty or nameVaild) and passValid then
-		usernamePasswordText.hidden = true
-		nextButton.disabled = nameEmpty or not nameVaild or not passValid
-	else
-		usernamePasswordText.hidden = false
-		nextButton.disabled = true
+--local function checkLicense()
+--	nextButton.disabled = not acceptSwitchAndLabel.switch.state
+--end
 
-		if nameVaild then
-			usernamePasswordText.text = localization.passwordsArentEqual
-		else
-			usernamePasswordText.text = localization.usernameInvalid
-		end
-	end
-end
+--prevButton.onTouch = function()
+--	stage = stage - 1
+--	loadStage()
+--end
 
-local function checkLicense()
-	nextButton.disabled = not acceptSwitchAndLabel.switch.state
-end
+--nextButton.onTouch = function()
+--	stage = stage + 1
+--	loadStage()
+-- end
 
-prevButton.onTouch = function()
-	stage = stage - 1
-	loadStage()
-end
+--acceptSwitchAndLabel.switch.onStateChanged = function()
+--	checkLicense()
+--	workspace:draw()
+--end
 
-nextButton.onTouch = function()
-	stage = stage + 1
-	loadStage()
-end
+--passwordSwitchAndLabel.switch.onStateChanged = function()
+--	passwordInput.hidden = passwordSwitchAndLabel.switch.state
+--	passwordSubmitInput.hidden = passwordSwitchAndLabel.switch.state
+--	checkUserInputs()
+--
+--	workspace:draw()
+--end
 
-acceptSwitchAndLabel.switch.onStateChanged = function()
-	checkLicense()
-	workspace:draw()
-end
+--usernameInput.onInputFinished = function()
+--	checkUserInputs()
+--	workspace:draw()
+--end
 
-passwordSwitchAndLabel.switch.onStateChanged = function()
-	passwordInput.hidden = passwordSwitchAndLabel.switch.state
-	passwordSubmitInput.hidden = passwordSwitchAndLabel.switch.state
-	checkUserInputs()
-
-	workspace:draw()
-end
-
-usernameInput.onInputFinished = function()
-	checkUserInputs()
-	workspace:draw()
-end
-
-passwordInput.onInputFinished = usernameInput.onInputFinished
-passwordSubmitInput.onInputFinished = usernameInput.onInputFinished
+--passwordInput.onInputFinished = usernameInput.onInputFinished
+--passwordSubmitInput.onInputFinished = usernameInput.onInputFinished
 
 -- Localization selection stage
-addStage(function()
-	prevButton.disabled = true
+--addStage(function()
+--	prevButton.disabled = true
+--
+--	addImage(0, 1, "Languages")
+--	layout:addChild(localizationComboBox)
+--
+--	workspace:draw()
+--	localizationComboBox:getItem(1).onTouch()
+--end)
 
-	addImage(0, 1, "Languages")
-	layout:addChild(localizationComboBox)
-
-	workspace:draw()
-	localizationComboBox:getItem(1).onTouch()
-end)
-
--- Filesystem selection stage
+ Filesystem selection stage
 addStage(function()
 	prevButton.disabled = false
-	nextButton.disabled = false
+nextButton.disabled = false
 
 	layout:addChild(GUI.object(1, 1, 1, 1))
 	addTitle(0x696969, localization.select)
@@ -493,45 +493,45 @@ addStage(function()
 end)
 
 -- User profile setup stage
-addStage(function()
-	checkUserInputs()
-
-	addImage(0, 0, "User")
-	addTitle(0x696969, localization.setup)
-
-	layout:addChild(usernameInput)
-	layout:addChild(passwordInput)
-	layout:addChild(passwordSubmitInput)
-	layout:addChild(usernamePasswordText)
-	layout:addChild(passwordSwitchAndLabel)
-end)
+--addStage(function()
+--	checkUserInputs()
+--
+--	addImage(0, 0, "User")
+--	addTitle(0x696969, localization.setup)
+--
+--	layout:addChild(usernameInput)
+--	layout:addChild(passwordInput)
+--	layout:addChild(passwordSubmitInput)
+--	layout:addChild(usernamePasswordText)
+--	layout:addChild(passwordSwitchAndLabel)
+--end)
 
 -- Downloads customization stage
-addStage(function()
-	nextButton.disabled = false
-
-	addImage(0, 0, "Settings")
-	addTitle(0x696969, localization.customize)
-
-	layout:addChild(wallpapersSwitchAndLabel)
-	layout:addChild(screensaversSwitchAndLabel)
-	layout:addChild(applicationsSwitchAndLabel)
-	layout:addChild(localizationsSwitchAndLabel)
-end)
+--addStage(function()
+--	nextButton.disabled = false
+--
+--	addImage(0, 0, "Settings")
+--	addTitle(0x696969, localization.customize)
+--
+--	layout:addChild(wallpapersSwitchAndLabel)
+--	layout:addChild(screensaversSwitchAndLabel)
+--	layout:addChild(applicationsSwitchAndLabel)
+--	layout:addChild(localizationsSwitchAndLabel)
+--end)
 
 -- Downloading stage
-addStage(function()
-	stageButtonsLayout:removeChildren()
+--addStage(function()
+--	stageButtonsLayout:removeChildren()
 	
 	-- Creating user profile
-	layout:removeChildren()
-	addImage(1, 1, "User")
-	addTitle(0x969696, localization.creating)
-	workspace:draw()
+--	layout:removeChildren()
+--	addImage(1, 1, "User")
+--	addTitle(0x969696, localization.creating)
+--	workspace:draw()
 
 	-- Renaming if possible
 	if not selectedFilesystemProxy.getLabel() then
-		selectedFilesystemProxy.setLabel("MineOS HDD")
+		selectedFilesystemProxy.setLabel("OPenOS")
 	end
 
 	local function switchProxy(runnable)
@@ -554,14 +554,14 @@ addStage(function()
 	end)
 
 	-- Flashing EEPROM
-	layout:removeChildren()
-	addImage(1, 1, "EEPROM")
-	addTitle(0x969696, localization.flashing)
-	workspace:draw()
+	--layout:removeChildren()
+	--addImage(1, 1, "EEPROM")
+	--addTitle(0x969696, localization.flashing)
+	--workspace:draw()
 	
-	EEPROMProxy.set(request(EFIURL))
-	EEPROMProxy.setLabel("MineOS EFI")
-	EEPROMProxy.setData(selectedFilesystemProxy.address)
+	--EEPROMProxy.set(request(EFIURL))
+	--EEPROMProxy.setLabel("MineOS EFI")
+	--EEPROMProxy.setData(selectedFilesystemProxy.address)
 
 	-- Downloading files
 	layout:removeChildren()
@@ -589,31 +589,31 @@ addStage(function()
 			for i = 1, #files[key] do
 				path = getData(files[key][i])
 
-				if filesystem.extension(path) == ".lang" then
-					localizationName = filesystem.hideExtension(filesystem.name(path))
-
-					if
-						-- If ALL loacalizations need to be downloaded
-						localizationsSwitchAndLabel.switch.state or
+			--	if filesystem.extension(path) == ".lang" then
+			--		localizationName = filesystem.hideExtension(filesystem.name(path))
+--
+--					if
+--						-- If ALL loacalizations need to be downloaded
+--						localizationsSwitchAndLabel.switch.state or
 						-- If it's required localization file
-						localizationName == selectedLocalization or
+--						localizationName == selectedLocalization or
 						-- Downloading English "just in case" for non-english localizations
-						selectedLocalization ~= "English" and localizationName == "English"
-					then
-						table.insert(downloadList, files[key][i])
-					end
-				else
-					table.insert(downloadList, files[key][i])
-				end
+--						selectedLocalization ~= "English" and localizationName == "English"
+--					then
+--						table.insert(downloadList, files[key][i])
+--					end
+--				else
+--					table.insert(downloadList, files[key][i])
+--				end
 			end
 		end
 	end
 
 	addToList(true, "required")
-	addToList(true, "localizations")
-	addToList(applicationsSwitchAndLabel.switch.state, "optional")
-	addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
-	addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
+	--addToList(true, "localizations")
+	--addToList(applicationsSwitchAndLabel.switch.state, "optional")
+	--addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
+	--addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
 
 	-- Downloading files from created list
 	local versions, path, id, version, shortcut = {}
@@ -655,9 +655,9 @@ addStage(function()
 
 	-- Done info
 	layout:removeChildren()
-	addImage(1, 1, "Done")
-	addTitle(0x969696, localization.installed)
-	addStageButton(localization.reboot).onTouch = function()
+	addImage(1, 1, "reboot")
+	--addTitle(0x969696, localization.installed)
+	addStageButton("Reboot").onTouch = function()
 		computer.shutdown(true)
 	end
 	workspace:draw()
