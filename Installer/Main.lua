@@ -17,9 +17,9 @@ local EEPROMProxy, internetProxy, GPUProxy =
 GPUProxy.bind(getComponentAddress("screen"))
 local screenWidth, screenHeight = GPUProxy.getResolution()
 
-local repositoryURL = "https://raw.githubusercontent.com/youaregod666/OpenOS-files/master/"
+local repositoryURL = "https://raw.githubusercontent.com/IgorTimofeev/MineOS/master/"
 local installerURL = "Installer/"
-local EFIURL = "https://raw.githubusercontent.com/youaregod666/mine/master/EFI/Minified.lua"
+local EFIURL = "EFI/Minified.lua"
 
 local installerPath = "/MineOS installer/"
 local installerPicturesPath = installerPath .. "Installer/Pictures/"
@@ -42,7 +42,7 @@ end
 
 local function title()
 	local y = math.floor(screenHeight / 2 - 1)
-	centrizedText(y, 0x2D2D2D, "MineOS?")
+	centrizedText(y, 0x2D2D2D, "MineOS")
 
 	return y + 2
 end
@@ -315,16 +315,16 @@ for i = 1, #files.localizations do
 		-- Obtaining localization table
 		localization = deserialize(request(installerURL .. files.localizations[i]))
 
-		 --Filling widgets with selected localization data
-		 usernameInput.placeholderText = localization.username
-		 passwordInput.placeholderText = localization.password
-		 passwordSubmitInput.placeholderText = localization.submitPassword
-		 passwordSwitchAndLabel.label.text = localization.withoutPassword
-		 wallpapersSwitchAndLabel.label.text = localization.wallpapers
-		 screensaversSwitchAndLabel.label.text = localization.screensavers
-		 applicationsSwitchAndLabel.label.text = localization.applications
-		 localizationsSwitchAndLabel.label.text = localization.languages
-		 acceptSwitchAndLabel.label.text = localization.accept
+		-- Filling widgets with selected localization data
+		usernameInput.placeholderText = localization.username
+		passwordInput.placeholderText = localization.password
+		passwordSubmitInput.placeholderText = localization.submitPassword
+		passwordSwitchAndLabel.label.text = localization.withoutPassword
+		wallpapersSwitchAndLabel.label.text = localization.wallpapers
+		screensaversSwitchAndLabel.label.text = localization.screensavers
+		applicationsSwitchAndLabel.label.text = localization.applications
+		localizationsSwitchAndLabel.label.text = localization.languages
+		acceptSwitchAndLabel.label.text = localization.accept
 	end
 end
 
@@ -356,10 +356,10 @@ local function checkUserInputs()
 		nextButton.disabled = nameEmpty or not nameVaild or not passValid
 	else
 		usernamePasswordText.hidden = false
- nextButton.disabled = true
+		nextButton.disabled = true
 
 		if nameVaild then
- usernamePasswordText.text = localization.passwordsArentEqual
+			usernamePasswordText.text = localization.passwordsArentEqual
 		else
 			usernamePasswordText.text = localization.usernameInvalid
 		end
@@ -378,7 +378,7 @@ end
 nextButton.onTouch = function()
 	stage = stage + 1
 	loadStage()
- end
+end
 
 acceptSwitchAndLabel.switch.onStateChanged = function()
 	checkLicense()
@@ -412,10 +412,10 @@ addStage(function()
 	localizationComboBox:getItem(1).onTouch()
 end)
 
- -- Filesystem selection stage
+-- Filesystem selection stage
 addStage(function()
 	prevButton.disabled = false
-nextButton.disabled = false
+	nextButton.disabled = false
 
 	layout:addChild(GUI.object(1, 1, 1, 1))
 	addTitle(0x696969, localization.select)
@@ -509,6 +509,7 @@ end)
 -- Downloads customization stage
 addStage(function()
 	nextButton.disabled = false
+
 	addImage(0, 0, "Settings")
 	addTitle(0x696969, localization.customize)
 
@@ -516,7 +517,17 @@ addStage(function()
 	layout:addChild(screensaversSwitchAndLabel)
 	layout:addChild(applicationsSwitchAndLabel)
 	layout:addChild(localizationsSwitchAndLabel)
-	end)
+end)
+
+-- License acception stage
+addStage(function()
+	checkLicense()
+
+	local lines = text.wrap({request("LICENSE")}, layout.width - 2)
+	local textBox = layout:addChild(GUI.textBox(1, 1, layout.width, layout.height - 3, 0xF0F0F0, 0x696969, lines, 1, 1, 1))
+
+	layout:addChild(acceptSwitchAndLabel)
+end)
 
 -- Downloading stage
 addStage(function()
@@ -530,7 +541,7 @@ addStage(function()
 
 	-- Renaming if possible
 	if not selectedFilesystemProxy.getLabel() then
-		selectedFilesystemProxy.setLabel("OPenOS")
+		selectedFilesystemProxy.setLabel("MineOS HDD")
 	end
 
 	local function switchProxy(runnable)
@@ -552,14 +563,14 @@ addStage(function()
 		)
 	end)
 
-	 Flashing EEPROM
+	-- Flashing EEPROM
 	layout:removeChildren()
 	addImage(1, 1, "EEPROM")
 	addTitle(0x969696, localization.flashing)
 	workspace:draw()
 	
 	EEPROMProxy.set(request(EFIURL))
-	EEPROMProxy.setLabel("MineOS EFI OpenOS")
+	EEPROMProxy.setLabel("MineOS EFI")
 	EEPROMProxy.setData(selectedFilesystemProxy.address)
 
 	-- Downloading files
@@ -588,28 +599,28 @@ addStage(function()
 			for i = 1, #files[key] do
 				path = getData(files[key][i])
 
-			--	if filesystem.extension(path) == ".lang" then
-			--		localizationName = filesystem.hideExtension(filesystem.name(path))
---
---					if
---						-- If ALL loacalizations need to be downloaded
---						localizationsSwitchAndLabel.switch.state or
+				if filesystem.extension(path) == ".lang" then
+					localizationName = filesystem.hideExtension(filesystem.name(path))
+
+					if
+						-- If ALL loacalizations need to be downloaded
+						localizationsSwitchAndLabel.switch.state or
 						-- If it's required localization file
---						localizationName == selectedLocalization or
+						localizationName == selectedLocalization or
 						-- Downloading English "just in case" for non-english localizations
---						selectedLocalization ~= "English" and localizationName == "English"
---					then
---						table.insert(downloadList, files[key][i])
---					end
---				else
---					table.insert(downloadList, files[key][i])
---				end
+						selectedLocalization ~= "English" and localizationName == "English"
+					then
+						table.insert(downloadList, files[key][i])
+					end
+				else
+					table.insert(downloadList, files[key][i])
+				end
 			end
 		end
 	end
 
 	addToList(true, "required")
-	--addToList(true, "localizations")
+	addToList(true, "localizations")
 	addToList(applicationsSwitchAndLabel.switch.state, "optional")
 	addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
 	addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
@@ -634,13 +645,13 @@ addStage(function()
 		end
 
 		-- Create shortcut if possible
-		--if shortcut then
-		--	switchProxy(function()
-		--		system.createShortcut(
-		--			userPaths.desktop .. filesystem.hideExtension(filesystem.name(filesystem.path(path))),
-		--			OSPath .. filesystem.path(path)
-		--		)
-		--	end)
+		if shortcut then
+			switchProxy(function()
+				system.createShortcut(
+					userPaths.desktop .. filesystem.hideExtension(filesystem.name(filesystem.path(path))),
+					OSPath .. filesystem.path(path)
+				)
+			end)
 		end
 
 		progressBar.value = math.floor(i / #downloadList * 100)
@@ -654,13 +665,10 @@ addStage(function()
 
 	-- Done info
 	layout:removeChildren()
-	addImage(1, 1, "reboot")
+	addImage(1, 1, "Done")
 	addTitle(0x969696, localization.installed)
-	addStageButton("Reboot").onTouch = function()
+	addStageButton(localization.reboot).onTouch = function()
 		computer.shutdown(true)
-	end
-addStageButton("Shutdown").onTouch = function()
-		computer.shutdown()
 	end
 	workspace:draw()
 
