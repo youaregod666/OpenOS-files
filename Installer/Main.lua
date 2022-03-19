@@ -19,7 +19,7 @@ local screenWidth, screenHeight = GPUProxy.getResolution()
 
 local repositoryURL = "https://raw.githubusercontent.com/youaregod666/OpenOS-files/master/"
 local installerURL = "Installer/"
-local EFIURL = "https://raw.githubusercontent.com/youaregod666/MineOS-EFI/master/EFI/Minified.lua"
+local EFIURL = "https://raw.githubusercontent.com/youaregod666/mine/master/EFI/Minified.lua"
 
 local installerPath = "/MineOS installer/"
 local installerPicturesPath = installerPath .. "Installer/Pictures/"
@@ -42,7 +42,7 @@ end
 
 local function title()
 	local y = math.floor(screenHeight / 2 - 1)
-	centrizedText(y, 0x2D2D2D, "MineOS")
+	centrizedText(y, 0x2D2D2D, "MineOS?")
 
 	return y + 2
 end
@@ -553,15 +553,15 @@ end)
 		)
 	end)
 
-	-- Flashing EEPROM
-	--layout:removeChildren()
-	--addImage(1, 1, "EEPROM")
-	--addTitle(0x969696, localization.flashing)
-	--workspace:draw()
+	 Flashing EEPROM
+	layout:removeChildren()
+	addImage(1, 1, "EEPROM")
+	addTitle(0x969696, localization.flashing)
+	workspace:draw()
 	
-	--EEPROMProxy.set(request(EFIURL))
-	--EEPROMProxy.setLabel("MineOS EFI")
-	--EEPROMProxy.setData(selectedFilesystemProxy.address)
+	EEPROMProxy.set(request(EFIURL))
+	EEPROMProxy.setLabel("MineOS EFI OpenOS")
+	EEPROMProxy.setData(selectedFilesystemProxy.address)
 
 	-- Downloading files
 	layout:removeChildren()
@@ -659,6 +659,9 @@ end)
 	--addTitle(0x969696, localization.installed)
 	addStageButton("Reboot").onTouch = function()
 		computer.shutdown(true)
+	end
+addStageButton("Shutdown").onTouch = function()
+		computer.shutdown()
 	end
 	workspace:draw()
 
