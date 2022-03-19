@@ -1,4 +1,7 @@
 -- to install on computer from opencomputers
+local EEPROMProxy, = 
+	getComponentProxy("eeprom"),
+	
 -- Flashing EEPROM
 	layout:removeChildren()
 	addImage(1, 1, "EEPROM")
