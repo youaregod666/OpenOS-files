@@ -315,16 +315,16 @@ for i = 1, #files.localizations do
 		-- Obtaining localization table
 		localization = deserialize(request(installerURL .. files.localizations[i]))
 
-		-- Filling widgets with selected localization data
-		-- usernameInput.placeholderText = localization.username
-		-- passwordInput.placeholderText = localization.password
-		-- passwordSubmitInput.placeholderText = localization.submitPassword
-		-- passwordSwitchAndLabel.label.text = localization.withoutPassword
-		-- wallpapersSwitchAndLabel.label.text = localization.wallpapers
-		-- screensaversSwitchAndLabel.label.text = localization.screensavers
-		-- applicationsSwitchAndLabel.label.text = localization.applications
-		-- localizationsSwitchAndLabel.label.text = localization.languages
-		-- acceptSwitchAndLabel.label.text = localization.accept
+		 Filling widgets with selected localization data
+		 usernameInput.placeholderText = localization.username
+		 passwordInput.placeholderText = localization.password
+		 passwordSubmitInput.placeholderText = localization.submitPassword
+		 passwordSwitchAndLabel.label.text = localization.withoutPassword
+		 wallpapersSwitchAndLabel.label.text = localization.wallpapers
+		 screensaversSwitchAndLabel.label.text = localization.screensavers
+		 applicationsSwitchAndLabel.label.text = localization.applications
+		 localizationsSwitchAndLabel.label.text = localization.languages
+		 acceptSwitchAndLabel.label.text = localization.accept
 	end
 end
 
@@ -346,71 +346,71 @@ local function loadStage()
 	stages[stage]()
 end
 
---local function checkUserInputs()
---	local nameEmpty = #usernameInput.text == 0
---	local nameVaild = usernameInput.text:match("^%w[%w%s_]+$")
---	local passValid = passwordSwitchAndLabel.switch.state or #passwordInput.text == 0 or #passwordSubmitInput.text == 0 or passwordInput.text == passwordSubmitInput.text
---
---	if (nameEmpty or nameVaild) and passValid then
---		usernamePasswordText.hidden = true
---		nextButton.disabled = nameEmpty or not nameVaild or not passValid
---	else
---		usernamePasswordText.hidden = false
--- nextButton.disabled = true
---
---		if nameVaild then
--- usernamePasswordText.text = localization.passwordsArentEqual
---		else
---			usernamePasswordText.text = localization.usernameInvalid
---		end
---	end
---end
+local function checkUserInputs()
+	local nameEmpty = #usernameInput.text == 0
+	local nameVaild = usernameInput.text:match("^%w[%w%s_]+$")
+	local passValid = passwordSwitchAndLabel.switch.state or #passwordInput.text == 0 or #passwordSubmitInput.text == 0 or passwordInput.text == passwordSubmitInput.text
 
---local function checkLicense()
---	nextButton.disabled = not acceptSwitchAndLabel.switch.state
---end
+	if (nameEmpty or nameVaild) and passValid then
+		usernamePasswordText.hidden = true
+		nextButton.disabled = nameEmpty or not nameVaild or not passValid
+	else
+		usernamePasswordText.hidden = false
+ nextButton.disabled = true
 
---prevButton.onTouch = function()
---	stage = stage - 1
---	loadStage()
---end
+		if nameVaild then
+ usernamePasswordText.text = localization.passwordsArentEqual
+		else
+			usernamePasswordText.text = localization.usernameInvalid
+		end
+	end
+end
 
---nextButton.onTouch = function()
---	stage = stage + 1
---	loadStage()
--- end
+local function checkLicense()
+	nextButton.disabled = not acceptSwitchAndLabel.switch.state
+end
 
---acceptSwitchAndLabel.switch.onStateChanged = function()
---	checkLicense()
---	workspace:draw()
---end
+prevButton.onTouch = function()
+	stage = stage - 1
+	loadStage()
+end
 
---passwordSwitchAndLabel.switch.onStateChanged = function()
---	passwordInput.hidden = passwordSwitchAndLabel.switch.state
---	passwordSubmitInput.hidden = passwordSwitchAndLabel.switch.state
---	checkUserInputs()
---
---	workspace:draw()
---end
+nextButton.onTouch = function()
+	stage = stage + 1
+	loadStage()
+ end
 
---usernameInput.onInputFinished = function()
---	checkUserInputs()
---	workspace:draw()
---end
+acceptSwitchAndLabel.switch.onStateChanged = function()
+	checkLicense()
+	workspace:draw()
+end
 
---passwordInput.onInputFinished = usernameInput.onInputFinished
---passwordSubmitInput.onInputFinished = usernameInput.onInputFinished
+passwordSwitchAndLabel.switch.onStateChanged = function()
+	passwordInput.hidden = passwordSwitchAndLabel.switch.state
+	passwordSubmitInput.hidden = passwordSwitchAndLabel.switch.state
+	checkUserInputs()
+
+	workspace:draw()
+end
+
+usernameInput.onInputFinished = function()
+	checkUserInputs()
+	workspace:draw()
+end
+
+passwordInput.onInputFinished = usernameInput.onInputFinished
+passwordSubmitInput.onInputFinished = usernameInput.onInputFinished
 
 -- Localization selection stage
---addStage(function()
---	prevButton.disabled = true
---
---	addImage(0, 1, "Languages")
---	layout:addChild(localizationComboBox)
---
---	workspace:draw()
---	localizationComboBox:getItem(1).onTouch()
---end)
+addStage(function()
+	prevButton.disabled = true
+
+	addImage(0, 1, "Languages")
+	layout:addChild(localizationComboBox)
+
+	workspace:draw()
+	localizationComboBox:getItem(1).onTouch()
+end)
 
  Filesystem selection stage
 addStage(function()
@@ -493,41 +493,40 @@ nextButton.disabled = false
 end)
 
 -- User profile setup stage
---addStage(function()
---	checkUserInputs()
---
---	addImage(0, 0, "User")
---	addTitle(0x696969, localization.setup)
---
---	layout:addChild(usernameInput)
---	layout:addChild(passwordInput)
---	layout:addChild(passwordSubmitInput)
---	layout:addChild(usernamePasswordText)
---	layout:addChild(passwordSwitchAndLabel)
---end)
+addStage(function()
+	checkUserInputs()
+
+	addImage(0, 0, "User")
+	addTitle(0x696969, localization.setup)
+
+	layout:addChild(usernameInput)
+	layout:addChild(passwordInput)
+	layout:addChild(passwordSubmitInput)
+	layout:addChild(usernamePasswordText)
+	layout:addChild(passwordSwitchAndLabel)
+end)
 
 -- Downloads customization stage
---addStage(function()
---	nextButton.disabled = false
---
---	addImage(0, 0, "Settings")
---	addTitle(0x696969, localization.customize)
---
---	layout:addChild(wallpapersSwitchAndLabel)
---	layout:addChild(screensaversSwitchAndLabel)
---	layout:addChild(applicationsSwitchAndLabel)
---	layout:addChild(localizationsSwitchAndLabel)
---end)
+addStage(function()
+	nextButton.disabled = false
+	addImage(0, 0, "Settings")
+	addTitle(0x696969, localization.customize)
+
+	layout:addChild(wallpapersSwitchAndLabel)
+	layout:addChild(screensaversSwitchAndLabel)
+	layout:addChild(applicationsSwitchAndLabel)
+	layout:addChild(localizationsSwitchAndLabel)
+	end)
 
 -- Downloading stage
---addStage(function()
---	stageButtonsLayout:removeChildren()
+addStage(function()
+	stageButtonsLayout:removeChildren()
 	
 	-- Creating user profile
---	layout:removeChildren()
---	addImage(1, 1, "User")
---	addTitle(0x969696, localization.creating)
---	workspace:draw()
+	layout:removeChildren()
+	addImage(1, 1, "User")
+	addTitle(0x969696, localization.creating)
+	workspace:draw()
 
 	-- Renaming if possible
 	if not selectedFilesystemProxy.getLabel() then
@@ -611,9 +610,9 @@ end)
 
 	addToList(true, "required")
 	--addToList(true, "localizations")
-	--addToList(applicationsSwitchAndLabel.switch.state, "optional")
-	--addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
-	--addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
+	addToList(applicationsSwitchAndLabel.switch.state, "optional")
+	addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
+	addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
 
 	-- Downloading files from created list
 	local versions, path, id, version, shortcut = {}
@@ -635,13 +634,13 @@ end)
 		end
 
 		-- Create shortcut if possible
-		if shortcut then
-			switchProxy(function()
-				system.createShortcut(
-					userPaths.desktop .. filesystem.hideExtension(filesystem.name(filesystem.path(path))),
-					OSPath .. filesystem.path(path)
-				)
-			end)
+		--if shortcut then
+		--	switchProxy(function()
+		--		system.createShortcut(
+		--			userPaths.desktop .. filesystem.hideExtension(filesystem.name(filesystem.path(path))),
+		--			OSPath .. filesystem.path(path)
+		--		)
+		--	end)
 		end
 
 		progressBar.value = math.floor(i / #downloadList * 100)
@@ -656,7 +655,7 @@ end)
 	-- Done info
 	layout:removeChildren()
 	addImage(1, 1, "reboot")
-	--addTitle(0x969696, localization.installed)
+	addTitle(0x969696, localization.installed)
 	addStageButton("Reboot").onTouch = function()
 		computer.shutdown(true)
 	end
