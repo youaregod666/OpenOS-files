@@ -412,7 +412,7 @@ addStage(function()
 	localizationComboBox:getItem(1).onTouch()
 end)
 
- --Filesystem selection stage
+ -- Filesystem selection stage
 addStage(function()
 	prevButton.disabled = false
 nextButton.disabled = false
