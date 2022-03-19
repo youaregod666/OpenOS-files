@@ -315,7 +315,7 @@ for i = 1, #files.localizations do
 		-- Obtaining localization table
 		localization = deserialize(request(installerURL .. files.localizations[i]))
 
-		 Filling widgets with selected localization data
+		 --Filling widgets with selected localization data
 		 usernameInput.placeholderText = localization.username
 		 passwordInput.placeholderText = localization.password
 		 passwordSubmitInput.placeholderText = localization.submitPassword
