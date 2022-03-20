@@ -136,7 +136,7 @@ local function deserialize(text)
 	if result then
 		return result()
 	else
-		error(reason)
+		--error(reason)
 	end
 end
 
